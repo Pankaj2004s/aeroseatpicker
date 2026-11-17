@@ -3,8 +3,12 @@ import LayoutToggle from './components/LayoutToggle.jsx'
 import PassengerPanel from './components/PassengerPanel.jsx'
 import SeatLegend from './components/SeatLegend.jsx'
 import SeatMap from './components/SeatMap.jsx'
+import Toast from './components/Toast.jsx'
+import { useToast } from './hooks/useToast.js'
 
 function App() {
+  const { toast, showToast } = useToast()
+
   return (
     <div className="min-h-screen bg-slate-100">
       <Header />
@@ -20,13 +24,14 @@ function App() {
         <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
           <div className="flex flex-col gap-6">
             <SeatLegend />
-            <SeatMap />
+            <SeatMap onNotify={showToast} />
           </div>
           <aside className="order-first lg:sticky lg:top-4 lg:order-none">
             <PassengerPanel />
           </aside>
         </div>
       </main>
+      <Toast toast={toast} />
     </div>
   )
 }

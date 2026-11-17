@@ -11,7 +11,8 @@ function Seat({ seat, status, onSelect }) {
   return (
     <button
       type="button"
-      disabled={isOccupied}
+      aria-disabled={isOccupied}
+      aria-pressed={status === 'selected'}
       onClick={() => onSelect?.(seat)}
       title={isOccupied ? `${seat.id} - Occupied` : `${seat.id} - ${categoryLabel} - ${priceText}`}
       aria-label={`Seat ${seat.id}, ${isOccupied ? 'occupied' : `${categoryLabel}, ${priceText}`}`}
