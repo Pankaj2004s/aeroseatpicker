@@ -33,7 +33,7 @@ function App() {
             <SeatMap onNotify={showToast} />
           </div>
 
-          <div className="contents lg:sticky lg:top-4 lg:flex lg:max-h-[calc(100vh-2rem)] lg:flex-col lg:gap-4 lg:overflow-y-auto">
+          <div className="contents lg:sticky lg:top-4 lg:flex lg:max-h-[calc(100vh-2rem)] lg:flex-col lg:gap-4 lg:overflow-y-auto lg:[scrollbar-width:thin]">
             <div className="order-first lg:order-none">
               <PassengerPanel />
             </div>
