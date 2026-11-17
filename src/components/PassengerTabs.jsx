@@ -7,7 +7,7 @@ function PassengerTabs() {
     <div
       role="group"
       aria-label="Select passenger"
-      className="flex gap-2 overflow-x-auto pb-1 lg:flex-col lg:overflow-x-visible lg:pb-0"
+      className="flex gap-2 overflow-x-auto pb-1 lg:grid lg:grid-cols-2 lg:overflow-x-visible lg:pb-0"
     >
       {passengers.map((passenger) => {
         const isActive = passenger.id === activePassengerId
@@ -19,7 +19,7 @@ function PassengerTabs() {
             type="button"
             aria-pressed={isActive}
             onClick={() => selectPassenger(passenger.id)}
-            className={`min-w-32 shrink-0 rounded-xl border-2 px-4 py-2 text-left transition ${
+            className={`min-w-32 shrink-0 rounded-xl border-2 px-3 py-2 text-left transition lg:min-w-0 ${
               isActive
                 ? 'border-blue-600 bg-blue-50'
                 : 'border-slate-200 bg-white hover:border-slate-300'
