@@ -64,11 +64,9 @@ export function seatReducer(state, action) {
       }
     }
 
-    case ACTIONS.REMOVE_SEAT: {
-      const assignments = { ...state.assignments }
-      delete assignments[action.passengerId]
-      return { ...state, assignments }
-    }
+     case ACTIONS.SET_LAYOUT:
+      if (action.layoutId === state.layoutId) return state
+      return { ...state, layoutId: action.layoutId, assignments: {} }
 
     default:
       return state
