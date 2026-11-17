@@ -1,4 +1,5 @@
 import { DEFAULT_LAYOUT_ID } from '../data/layouts.js'
+import { MEALS_BY_ID } from '../data/meals.js'
 
 export const MAX_PASSENGERS = 6
 
@@ -8,6 +9,8 @@ export const ACTIONS = {
   SET_ACTIVE_PASSENGER: 'SET_ACTIVE_PASSENGER',
   ASSIGN_SEAT: 'ASSIGN_SEAT',
   REMOVE_SEAT: 'REMOVE_SEAT',
+  SET_MEAL: 'SET_MEAL',
+  REMOVE_MEAL: 'REMOVE_MEAL',
 }
 
 function createPassengers(count) {
@@ -17,16 +20,32 @@ function createPassengers(count) {
   }))
 }
 
+function keepPassengers(valuesByPassenger, passengerIds) {
+  return Object.fromEntries(
+    Object.entries(valuesByPassenger).filter(([passengerId]) =>
+      passengerIds.includes(passengerId),
+    ),
+  )
+}
+
+function withoutPassenger(valuesByPassenger, passengerId) {
+  const copy = { ...valuesByPassenger }
+  delete copy[passengerId]
+  return copy
+}
+
 export const initialState = {
   layoutId: DEFAULT_LAYOUT_ID,
   passengers: createPassengers(1),
   activePassengerId: 'p1',
   assignments: {},
+  meals: {},
 }
 
 export function seatReducer(state, action) {
   switch (action.type) {
     case ACTIONS.SET_LAYOUT:
+      if (action.layoutId === state.layoutId) return state
       return { ...state, layoutId: action.layoutId, assignments: {} }
 
     case ACTIONS.SET_PASSENGER_COUNT: {
@@ -34,17 +53,17 @@ export function seatReducer(state, action) {
       const passengers = createPassengers(count)
       const passengerIds = passengers.map((passenger) => passenger.id)
 
-      const assignments = Object.fromEntries(
-        Object.entries(state.assignments).filter(([passengerId]) =>
-          passengerIds.includes(passengerId),
-        ),
-      )
-
       const activePassengerId = passengerIds.includes(state.activePassengerId)
         ? state.activePassengerId
         : passengerIds[0]
 
-      return { ...state, passengers, assignments, activePassengerId }
+      return {
+        ...state,
+        passengers,
+        activePassengerId,
+        assignments: keepPassengers(state.assignments, passengerIds),
+        meals: keepPassengers(state.meals, passengerIds),
+      }
     }
 
     case ACTIONS.SET_ACTIVE_PASSENGER:
@@ -64,9 +83,20 @@ export function seatReducer(state, action) {
       }
     }
 
-     case ACTIONS.SET_LAYOUT:
-      if (action.layoutId === state.layoutId) return state
-      return { ...state, layoutId: action.layoutId, assignments: {} }
+    case ACTIONS.REMOVE_SEAT:
+      return { ...state, assignments: withoutPassenger(state.assignments, action.passengerId) }
+
+    case ACTIONS.SET_MEAL: {
+      const { passengerId, mealId } = action
+
+      const isKnownPassenger = state.passengers.some((passenger) => passenger.id === passengerId)
+      if (!isKnownPassenger || !MEALS_BY_ID[mealId]) return state
+
+      return { ...state, meals: { ...state.meals, [passengerId]: mealId } }
+    }
+
+    case ACTIONS.REMOVE_MEAL:
+      return { ...state, meals: withoutPassenger(state.meals, action.passengerId) }
 
     default:
       return state
