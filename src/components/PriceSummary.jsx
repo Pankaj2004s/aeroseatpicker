@@ -3,11 +3,10 @@ import { usePricing } from '../hooks/usePricing.js'
 import { formatAmount, formatPrice } from '../utils/formatPrice.js'
 
 function PriceSummary() {
-  const { charges, total } = usePricing()
-  const selectedCount = charges.filter((charge) => charge.seat).length
+    const { charges, total, selectedCount } = usePricing()
 
   return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
+        <section id="price-summary" className="scroll-mt-4 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <div className="flex items-baseline justify-between gap-2">
         <h2 className="text-sm font-semibold text-slate-900">Price summary</h2>
         <p className="text-xs text-slate-500">

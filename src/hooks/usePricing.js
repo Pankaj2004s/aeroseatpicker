@@ -7,6 +7,8 @@ export function usePricing() {
 
   return useMemo(() => {
     const charges = getSeatCharges(passengers, assignments, seatsById)
-    return { charges, total: getTotal(charges) }
+    const selectedCount = charges.filter((charge) => charge.seat).length
+
+    return { charges, total: getTotal(charges), selectedCount }
   }, [passengers, assignments, seatsById])
 }
