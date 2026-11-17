@@ -1,14 +1,14 @@
 import { useMemo } from 'react'
-import { getSeatCharges, getTotal } from '../utils/pricing.js'
+import { getCharges, getTotals } from '../utils/pricing.js'
 import { useSeats } from './useSeats.js'
 
 export function usePricing() {
-  const { passengers, assignments, seatsById } = useSeats()
+  const { passengers, assignments, meals, seatsById } = useSeats()
 
   return useMemo(() => {
-    const charges = getSeatCharges(passengers, assignments, seatsById)
+    const charges = getCharges(passengers, assignments, meals, seatsById)
     const selectedCount = charges.filter((charge) => charge.seat).length
 
-    return { charges, total: getTotal(charges), selectedCount }
-  }, [passengers, assignments, seatsById])
+    return { charges, totals: getTotals(charges), selectedCount }
+  }, [passengers, assignments, meals, seatsById])
 }
