@@ -89,7 +89,7 @@ function SeatMap({ onNotify }) {
   }
 
   return (
-    <section className="mx-auto w-fit max-w-full overflow-x-auto rounded-t-[3rem] rounded-b-2xl border border-slate-200 bg-white px-4 pb-6 pt-10 shadow-sm sm:px-8">
+        <section className="mx-auto w-fit max-w-full overflow-x-auto rounded-t-[3rem] rounded-b-2xl border border-slate-200 bg-white px-2 pb-6 pt-10 shadow-sm sm:px-8">
       <SeatColumnHeader groups={LAYOUTS[layoutId].groups} />
       <div className="mt-2 flex flex-col gap-1.5">
         {seatRows.map((row) => (

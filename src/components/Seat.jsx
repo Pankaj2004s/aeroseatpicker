@@ -16,7 +16,7 @@ function Seat({ seat, status, onSelect }) {
       onClick={() => onSelect?.(seat)}
       title={isOccupied ? `${seat.id} - Occupied` : `${seat.id} - ${categoryLabel} - ${priceText}`}
       aria-label={`Seat ${seat.id}, ${isOccupied ? 'occupied' : `${categoryLabel}, ${priceText}`}`}
-      className={`flex h-9 w-9 items-center justify-center rounded-t-xl rounded-b-md border-2 text-xs font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:h-11 sm:w-11 sm:text-sm ${style}`}
+      className={`flex h-8 w-8 items-center justify-center rounded-t-xl rounded-b-md border-2 text-xs font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 sm:h-11 sm:w-11 sm:text-sm ${style}`}
     >
       {isOccupied ? '×' : seat.label}
     </button>
