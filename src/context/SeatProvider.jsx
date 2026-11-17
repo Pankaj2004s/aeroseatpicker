@@ -1,12 +1,11 @@
 import { useMemo, useReducer } from 'react'
 import { SeatContext } from './SeatContext.js'
 import { ACTIONS, initialState, seatReducer } from './seatReducer.js'
-import { createSeatRows } from '../data/seats.js'
+import { useSeatRows } from '../hooks/useSeatRows.js'
 
 export function SeatProvider({ children }) {
   const [state, dispatch] = useReducer(seatReducer, initialState)
-
-  const seatRows = useMemo(() => createSeatRows(state.layoutId), [state.layoutId])
+  const { status, rows: seatRows, error, retry } = useSeatRows(state.layoutId)
 
   const seatsById = useMemo(
     () =>
@@ -31,8 +30,16 @@ export function SeatProvider({ children }) {
   )
 
   const value = useMemo(
-    () => ({ ...state, seatRows, seatsById, ...actions }),
-    [state, seatRows, seatsById, actions],
+    () => ({
+      ...state,
+      seatRows,
+      seatsById,
+      loadStatus: status,
+      loadError: error,
+      retryLoad: retry,
+      ...actions,
+    }),
+    [state, seatRows, seatsById, status, error, retry, actions],
   )
 
   return <SeatContext.Provider value={value}>{children}</SeatContext.Provider>
