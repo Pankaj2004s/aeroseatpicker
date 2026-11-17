@@ -1,11 +1,16 @@
 import { LAYOUTS } from '../data/layouts.js'
 import { useSeats } from '../hooks/useSeats.js'
 import SeatColumnHeader from './SeatColumnHeader.jsx'
+import SeatMapMessage from './SeatMapMessage.jsx'
+import SeatMapSkeleton from './SeatMapSkeleton.jsx'
 import SeatRow from './SeatRow.jsx'
 
 function SeatMap({ onNotify }) {
   const {
     layoutId,
+    loadStatus,
+    loadError,
+    retryLoad,
     seatRows,
     passengers,
     assignments,
@@ -13,6 +18,29 @@ function SeatMap({ onNotify }) {
     assignSeat,
     removeSeat,
   } = useSeats()
+
+  if (loadStatus === 'loading') return <SeatMapSkeleton />
+
+  if (loadStatus === 'error') {
+    return (
+      <SeatMapMessage
+        role="alert"
+        title="Couldn't load the seat map"
+        text={loadError.message}
+        actionLabel="Try again"
+        onAction={retryLoad}
+      />
+    )
+  }
+
+  if (seatRows.length === 0) {
+    return (
+      <SeatMapMessage
+        title="No seats available"
+        text="This flight has no open seats right now. Please check back later."
+      />
+    )
+  }
 
   const passengerBySeat = Object.fromEntries(
     Object.entries(assignments).map(([passengerId, seatId]) => [seatId, passengerId]),
