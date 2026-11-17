@@ -1,22 +1,12 @@
 import { SEAT_CATEGORIES } from '../data/seatCategories.js'
-
-const CATEGORY_STYLES = {
-  standard: 'border-emerald-300 bg-emerald-50 text-emerald-800 hover:bg-emerald-100',
-  premium: 'border-amber-300 bg-amber-50 text-amber-800 hover:bg-amber-100',
-  legroom: 'border-sky-300 bg-sky-50 text-sky-800 hover:bg-sky-100',
-}
-
-const STATUS_STYLES = {
-  occupied: 'cursor-not-allowed border-slate-200 bg-slate-200 text-slate-400',
-  selected: 'border-blue-600 bg-blue-600 text-white shadow-md',
-  assigned: 'border-indigo-300 bg-indigo-100 text-indigo-700',
-}
+import { formatPrice } from '../utils/formatPrice.js'
+import { CATEGORY_STYLES, STATUS_STYLES } from './seatStyles.js'
 
 function Seat({ seat, status, onSelect }) {
   const isOccupied = status === 'occupied'
-  const priceText = seat.price === 0 ? 'Free' : `₹${seat.price}`
+  const priceText = formatPrice(seat.price)
   const categoryLabel = SEAT_CATEGORIES[seat.category].label
-  const style = STATUS_STYLES[status] ?? CATEGORY_STYLES[seat.category]
+  const style = STATUS_STYLES[status] ?? `${CATEGORY_STYLES[seat.category]} hover:brightness-95`
 
   return (
     <button
