@@ -1,5 +1,6 @@
 import Header from './components/Header.jsx'
 import LayoutToggle from './components/LayoutToggle.jsx'
+import PassengerPanel from './components/PassengerPanel.jsx'
 import SeatLegend from './components/SeatLegend.jsx'
 import SeatMap from './components/SeatMap.jsx'
 
@@ -7,7 +8,7 @@ function App() {
   return (
     <div className="min-h-screen bg-slate-100">
       <Header />
-      <main className="mx-auto flex max-w-5xl flex-col gap-6 px-4 py-6">
+      <main className="mx-auto max-w-6xl px-4 py-6">
         <div className="flex flex-wrap items-end justify-between gap-3">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Select your seats</h1>
@@ -15,8 +16,16 @@ function App() {
           </div>
           <LayoutToggle />
         </div>
-        <SeatLegend />
-        <SeatMap />
+
+        <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,1fr)_20rem] lg:items-start">
+          <div className="flex flex-col gap-6">
+            <SeatLegend />
+            <SeatMap />
+          </div>
+          <aside className="order-first lg:sticky lg:top-4 lg:order-none">
+            <PassengerPanel />
+          </aside>
+        </div>
       </main>
     </div>
   )
