@@ -1,4 +1,5 @@
 import ActiveSeatCard from './ActiveSeatCard.jsx'
+import MealSelector from './MealSelector.jsx'
 import PassengerCount from './PassengerCount.jsx'
 import PassengerTabs from './PassengerTabs.jsx'
 
@@ -8,6 +9,7 @@ function PassengerPanel() {
       <PassengerCount />
       <PassengerTabs />
       <ActiveSeatCard />
+      <MealSelector />
     </section>
   )
 }
